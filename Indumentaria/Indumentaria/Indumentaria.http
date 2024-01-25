@@ -1,0 +1,6 @@
+@Indumentaria_HostAddress = http://localhost:5191
+
+GET {{Indumentaria_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
