@@ -1,4 +1,5 @@
-﻿using Indumentaria.DTOs;
+﻿using FluentValidation;
+using Indumentaria.DTOs;
 using Indumentaria.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,12 @@ namespace Indumentaria.Controllers
     public class TipoDeProductoController : ControllerBase
     {
         private ICrud<TipoDeProductoDTO, TipoDeProductoInsertDTO, TipoDeProductoUpdateDTO> _tipoDeProductoCrud;
-        public TipoDeProductoController([FromKeyedServices("TipoDeProductoService")] ICrud<TipoDeProductoDTO, TipoDeProductoInsertDTO, TipoDeProductoUpdateDTO> tipoDeProductoCrud)
+        private IValidator<TipoDeProductoInsertDTO> _validador;
+        public TipoDeProductoController([FromKeyedServices("TipoDeProductoService")] ICrud<TipoDeProductoDTO, TipoDeProductoInsertDTO, TipoDeProductoUpdateDTO> tipoDeProductoCrud,
+            IValidator<TipoDeProductoInsertDTO> validador)
         {
             _tipoDeProductoCrud = tipoDeProductoCrud;
+            _validador = validador;
         }
 
         [HttpGet]
@@ -30,6 +34,12 @@ namespace Indumentaria.Controllers
         [HttpPost]
         public async Task<ActionResult<TipoDeProductoDTO>> Add(TipoDeProductoInsertDTO tipoDeProductoInsertDTO)
         {
+            var resultadoValidador = await _validador.ValidateAsync(tipoDeProductoInsertDTO);
+            if(!resultadoValidador.IsValid)
+            {
+                return BadRequest(resultadoValidador.Errors);
+            }
+
             var tipoDeProductoDTO = await _tipoDeProductoCrud.Add(tipoDeProductoInsertDTO);
 
             return CreatedAtAction(nameof(GetById), new {id = tipoDeProductoDTO.TipoDeProductoId}, tipoDeProductoDTO);

@@ -1,8 +1,10 @@
+using FluentValidation;
 using Indumentaria.AutoMappers;
 using Indumentaria.DTOs;
 using Indumentaria.Models;
 using Indumentaria.Repository;
 using Indumentaria.Services;
+using Indumentaria.Validators;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +27,10 @@ builder.Services.AddDbContext<IndumentariaContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("IndumentariaConnection"));
 });
+
+//Validator
+builder.Services.AddScoped<IValidator<TipoDeProductoInsertDTO>, ValidadorTiposDeProductoInsertDTO>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
