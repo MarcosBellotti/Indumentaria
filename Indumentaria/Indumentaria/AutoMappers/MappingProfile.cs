@@ -11,6 +11,10 @@ namespace Indumentaria.AutoMappers
             CreateMap<TipoDeProductoInsertDTO, TipoDeProducto>();
             CreateMap<TipoDeProducto, TipoDeProductoDTO>();
             CreateMap<TipoDeProductoUpdateDTO, TipoDeProducto>();
+
+            CreateMap<ProductoInsertDTO, Producto>();
+            CreateMap<Producto, ProductoDTO>();
+            CreateMap<ProductoUpdateDTO, Producto>();
         }
     }
 }

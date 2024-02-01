@@ -15,9 +15,11 @@ builder.Services.AddControllers();
 
 //Service
 builder.Services.AddKeyedScoped<ICrud<TipoDeProductoDTO, TipoDeProductoInsertDTO, TipoDeProductoUpdateDTO>, TipoDeProductoService>("TipoDeProductoService");
+builder.Services.AddKeyedScoped<ICrud<ProductoDTO, ProductoInsertDTO, ProductoUpdateDTO>, ProductoService>("ProductoService");
 
 //Repository
 builder.Services.AddKeyedScoped<IRepository<TipoDeProducto>, TipoDeProductoRepository>("TipoDeProductoRepository");
+builder.Services.AddKeyedScoped<IRepository<Producto>, ProductoRepository>("ProductoRepository");
 
 //Mapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
