@@ -20,6 +20,7 @@ builder.Services.AddKeyedScoped<ICrud<ProductoDTO, ProductoInsertDTO, ProductoUp
 //Repository
 builder.Services.AddKeyedScoped<IRepository<TipoDeProducto>, TipoDeProductoRepository>("TipoDeProductoRepository");
 builder.Services.AddKeyedScoped<IRepository<Producto>, ProductoRepository>("ProductoRepository");
+builder.Services.AddKeyedScoped<IRepository<Marca>, MarcaRepository>("MarcaRepository");
 
 //Mapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));

@@ -9,12 +9,19 @@ namespace Indumentaria.Services
     public class ProductoService : ICrud<ProductoDTO, ProductoInsertDTO, ProductoUpdateDTO>
     {
         private IRepository<Producto> _productoRepository;
+        private IRepository<Marca> _marcaRepository;
+        private IRepository<TipoDeProducto> _tipoDeProductoRepository;
         private IMapper _autoMapper;
+
         public ProductoService([FromKeyedServices("ProductoRepository")] IRepository<Producto> productoRepository, 
-            IMapper autoMapper)
+            IMapper autoMapper,
+            [FromKeyedServices("MarcaRepository")]  IRepository<Marca> marcaRepository,
+            [FromKeyedServices("TipoDeProductoRepository")] IRepository<TipoDeProducto> tipoDeProductoRepository)
         {
             _productoRepository = productoRepository;
             _autoMapper = autoMapper;
+            _marcaRepository = marcaRepository;
+            _tipoDeProductoRepository = tipoDeProductoRepository;
         }
         public async Task<IEnumerable<ProductoDTO>> Get()
         {
@@ -31,6 +38,16 @@ namespace Indumentaria.Services
 
         public async Task<ProductoDTO> Add(ProductoInsertDTO insertDTO)
         {
+            if(await _marcaRepository.GetById(insertDTO.MarcaId)==null)
+            {
+                throw new InvalidOperationException("El id de la marca especificada no existe en la base de datos.");
+            }
+
+            if (await _tipoDeProductoRepository.GetById(insertDTO.TipoDeProductoId) == null)
+            {
+                throw new InvalidOperationException("El id del tipo de producto especificado no existe en la base de datos.");
+            }
+
             var producto = _autoMapper.Map<Producto>(insertDTO);
 
             await _productoRepository.Add(producto);
@@ -45,7 +62,17 @@ namespace Indumentaria.Services
 
             if(producto != null)
             {
-                producto = _autoMapper.Map<ProductoUpdateDTO, Producto>(updateDTO);
+                if (await _marcaRepository.GetById(updateDTO.MarcaId) == null)
+                {
+                    throw new InvalidOperationException("El id de la marca especificada no existe en la base de datos.");
+                }
+
+                if (await _tipoDeProductoRepository.GetById(updateDTO.TipoDeProductoId) == null)
+                {
+                    throw new InvalidOperationException("El id del tipo de producto especificado no existe en la base de datos.");
+                }
+
+                producto = _autoMapper.Map<ProductoUpdateDTO, Producto>(updateDTO, producto);
 
                 _productoRepository.Update(producto);
                 _productoRepository.Save();

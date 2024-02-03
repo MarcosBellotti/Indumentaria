@@ -30,17 +30,33 @@ namespace Indumentaria.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductoDTO>> Add(ProductoInsertDTO productoInsertDTO)
         {
-            var productoDTO = await _productoCrud.Add(productoInsertDTO);
+            try
+            {
+                var productoDTO = await _productoCrud.Add(productoInsertDTO);
 
-            return CreatedAtAction(nameof(GetById), new { id = productoDTO.ProductoId }, productoDTO);
+                return CreatedAtAction(nameof(GetById), new { id = productoDTO.ProductoId }, productoDTO);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Manejar la excepción específica para MarcaId o TipoDeProductoId no existentes
+                return BadRequest(new { error = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<ProductoDTO>> Update(int id, ProductoUpdateDTO productoUpdateDTO)
         {
-            var productoDTO = await _productoCrud.Update(id, productoUpdateDTO);
+            try
+            {
+                var productoDTO = await _productoCrud.Update(id, productoUpdateDTO);
 
-            return productoDTO != null ? Ok(productoDTO) : NotFound();
+                return productoDTO != null ? Ok(productoDTO) : NotFound();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+
         }
 
         [HttpDelete("{id}")]
