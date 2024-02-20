@@ -94,11 +94,14 @@ namespace Indumentaria.Migrations
 
             modelBuilder.Entity("Indumentaria.Models.Proveedor", b =>
                 {
-                    b.Property<int>("Cuit")
+                    b.Property<int>("ProveedorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Cuit"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProveedorId"));
+
+                    b.Property<int>("Cuit")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -107,20 +110,20 @@ namespace Indumentaria.Migrations
                     b.Property<int>("NumeroDeCelular")
                         .HasColumnType("int");
 
-                    b.HasKey("Cuit");
+                    b.HasKey("ProveedorId");
 
                     b.ToTable("Proveedores");
                 });
 
             modelBuilder.Entity("Indumentaria.Models.ProveedorMarca", b =>
                 {
-                    b.Property<int>("ProveedorCuit")
+                    b.Property<int>("ProveedorId")
                         .HasColumnType("int");
 
                     b.Property<int>("MarcaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProveedorCuit", "MarcaId");
+                    b.HasKey("ProveedorId", "MarcaId");
 
                     b.HasIndex("MarcaId");
 
@@ -188,7 +191,7 @@ namespace Indumentaria.Migrations
 
                     b.HasOne("Indumentaria.Models.Proveedor", "Proveedor")
                         .WithMany()
-                        .HasForeignKey("ProveedorCuit")
+                        .HasForeignKey("ProveedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

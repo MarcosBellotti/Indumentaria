@@ -13,8 +13,8 @@ namespace Indumentaria.Repository
 
         public async Task<IEnumerable<Proveedor>> Get()
             => await _context.Proveedores.ToListAsync();
-        public async Task<Proveedor> GetById(int id)
-            => await _context.Proveedores.FindAsync(id);
+        public async Task<Proveedor> GetById(int cuit)
+            => await _context.Proveedores.FindAsync(cuit);
         public async Task Add(Proveedor proveedor)
             => await _context.Proveedores.AddAsync(proveedor);
         public void Update(Proveedor proveedor)

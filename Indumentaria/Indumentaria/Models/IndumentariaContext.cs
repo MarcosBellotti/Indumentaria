@@ -16,7 +16,7 @@ namespace Indumentaria.Models
         {
             modelBuilder.Entity<ProveedorMarca>().HasKey(pm => new
             {
-                pm.ProveedorCuit,
+                pm.ProveedorId,
                 pm.MarcaId
             });
         }

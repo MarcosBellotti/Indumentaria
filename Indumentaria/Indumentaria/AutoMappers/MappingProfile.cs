@@ -15,6 +15,14 @@ namespace Indumentaria.AutoMappers
             CreateMap<ProductoInsertDTO, Producto>();
             CreateMap<Producto, ProductoDTO>();
             CreateMap<ProductoUpdateDTO, Producto>();
+
+            CreateMap<MarcaInsertDTO, Marca>();
+            CreateMap<Marca, MarcaDTO>();
+            CreateMap<MarcaUpdateDTO, Marca>();
+
+            CreateMap<ProveedorInsertDTO, Proveedor>();
+            CreateMap<Proveedor, ProveedorDTO>();
+            CreateMap<ProveedorUpdateDTO, Proveedor>();
         }
     }
 }

@@ -5,7 +5,7 @@
 namespace Indumentaria.Migrations
 {
     /// <inheritdoc />
-    public partial class _01MigracionInicial : Migration
+    public partial class NOSE : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,14 +27,15 @@ namespace Indumentaria.Migrations
                 name: "Proveedores",
                 columns: table => new
                 {
-                    Cuit = table.Column<int>(type: "int", nullable: false)
+                    ProveedorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Cuit = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumeroDeCelular = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Proveedores", x => x.Cuit);
+                    table.PrimaryKey("PK_Proveedores", x => x.ProveedorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,12 +56,12 @@ namespace Indumentaria.Migrations
                 name: "ProveedoresMarcas",
                 columns: table => new
                 {
-                    ProveedorCuit = table.Column<int>(type: "int", nullable: false),
+                    ProveedorId = table.Column<int>(type: "int", nullable: false),
                     MarcaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProveedoresMarcas", x => new { x.ProveedorCuit, x.MarcaId });
+                    table.PrimaryKey("PK_ProveedoresMarcas", x => new { x.ProveedorId, x.MarcaId });
                     table.ForeignKey(
                         name: "FK_ProveedoresMarcas_Marcas_MarcaId",
                         column: x => x.MarcaId,
@@ -68,10 +69,10 @@ namespace Indumentaria.Migrations
                         principalColumn: "MarcaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProveedoresMarcas_Proveedores_ProveedorCuit",
-                        column: x => x.ProveedorCuit,
+                        name: "FK_ProveedoresMarcas_Proveedores_ProveedorId",
+                        column: x => x.ProveedorId,
                         principalTable: "Proveedores",
-                        principalColumn: "Cuit",
+                        principalColumn: "ProveedorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
