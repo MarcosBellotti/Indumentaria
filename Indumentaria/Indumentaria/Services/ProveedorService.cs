@@ -28,11 +28,10 @@ namespace Indumentaria.Services
         }
         public async Task<ProveedorDTO> Add(ProveedorInsertDTO insertDTO)
         {
-            var encontraProveedor = _proveedorRepository.GetById(insertDTO.Cuit);
-            if (encontraProveedor!=null)
-            {
-                throw new InvalidOperationException("El cuit del proveedor ya existe");
-            }
+            var proveedores = await _proveedorRepository.Get();
+            foreach (var unProveedor in proveedores)
+                if(unProveedor.Cuit == insertDTO.Cuit)
+                    throw new InvalidOperationException("El cuit del proveedor ya existe");
 
             var proveedor = _autoMapper.Map<Proveedor>(insertDTO);
 

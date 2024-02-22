@@ -34,7 +34,7 @@ namespace Indumentaria.Controllers
             {
                 var proveedorDTO = await _proveedorCrud.Add(proveedorInsertDTO);
 
-                return CreatedAtAction(nameof(GetById), new { cuit = proveedorDTO.Cuit }, proveedorDTO);
+                return CreatedAtAction(nameof(GetById), new { id = proveedorDTO.ProveedorId }, proveedorDTO);
             }
             catch (InvalidOperationException ex)
             {
